@@ -1,4 +1,4 @@
-package com.jwt.Authentiaction.project.config;
+ package com.jwt.Authentiaction.project.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -35,7 +35,9 @@ import com.jwt.Authentiaction.project.Login.security.JwtAuthenticationFilter;
 @EnableWebSecurity
 @EnableWebMvc
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SecurityConfig {
+public class SecurityConfig 
+//extends WebSecurityConfigurerAdapter 
+{
 
     public static final String[] PUBLIC_URLS = {"/api/v1/auth/**", "/v3/api-docs", "/v2/api-docs",
             "/swagger-resources/**", "/swagger-ui/**", "/webjars/**", "/createUser"
@@ -58,36 +60,40 @@ public class SecurityConfig {
 //        return authenticationManagerBean();
 //    }
     
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//
+//        http.
+//                csrf()
+//                .disable()
+//                .authorizeHttpRequests()
+//                .requestMatchers(PUBLIC_URLS)
+//                .permitAll()
+//                .requestMatchers("/api/v1/auth/login")
+//                .permitAll()
+//                .requestMatchers(HttpMethod.GET)
+//                .permitAll()
+//                .anyRequest()
+//                .authenticated()
+//                .and().exceptionHandling()
+//                .authenticationEntryPoint(this.jwtAuthenticationEntryPoint)
+//                .and()
+//                .sessionManagement()
+//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//
+//        http.addFilterBefore(
+//        		this.jwtAuthenticationFilter
+//        		, UsernamePasswordAuthenticationFilter.class);
+//
+//        http.authenticationProvider(daoAuthenticationProvider());
+//        DefaultSecurityFilterChain defaultSecurityFilterChain = http.build();
+//
+//        return defaultSecurityFilterChain;
+//
+//
+//    }
 
-        http.
-                csrf()
-                .disable()
-                .authorizeHttpRequests()
-                .requestMatchers(PUBLIC_URLS)
-                .permitAll()
-                .requestMatchers(HttpMethod.GET)
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-                .and().exceptionHandling()
-                .authenticationEntryPoint(this.jwtAuthenticationEntryPoint)
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-        http.addFilterBefore(this.jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
-        http.authenticationProvider(daoAuthenticationProvider());
-        DefaultSecurityFilterChain defaultSecurityFilterChain = http.build();
-
-        return defaultSecurityFilterChain;
-
-
-    }
-
-	/*
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
@@ -111,7 +117,7 @@ public class SecurityConfig {
 
 	}
 
-	 */
+	
 
     /*
     @Override
@@ -150,7 +156,8 @@ public class SecurityConfig {
 
   
     @Bean
-    public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration configuration) throws Exception {
+    public AuthenticationManager authenticationManagerBean(
+    		AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
 

@@ -35,7 +35,8 @@ import com.jwt.Authentiaction.project.payloads.UserDto;
 @Component
 public class AuthController {
 	
-	@Autowired(required=true)
+	@Autowired
+//	(required=true)
 	private AuthenticationManager authenticationManager;
 
 	@Autowired
@@ -44,10 +45,6 @@ public class AuthController {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
-	
-
-	@Autowired
-	private UserDetailsService userService;
 //	@Autowired
 //	private UserRepository userRepo;
 	@Autowired
@@ -60,7 +57,8 @@ public class AuthController {
 	 * */
 	
 	@PostMapping("/login")
-	public ResponseEntity<JwtAuthResponse> createToken(@RequestBody JwtAuthRequest request) throws Exception {
+	public ResponseEntity<JwtAuthResponse> createToken(
+			@RequestBody JwtAuthRequest request) throws Exception {
 		this.authenticate(request.getUsername(), request.getPassword());
 		UserDetails userDetails = this.userDetailsService.loadUserByUsername(request.getUsername());
 		String token = this.jwtTokenHelper.generateToken(userDetails);
@@ -71,7 +69,8 @@ public class AuthController {
 	}
 	
 	private void authenticate(String username, String password) throws Exception {
-		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
+		UsernamePasswordAuthenticationToken authenticationToken 
+			 = new UsernamePasswordAuthenticationToken(username,
 				password);
 		try {
 			this.authenticationManager.authenticate(authenticationToken);
